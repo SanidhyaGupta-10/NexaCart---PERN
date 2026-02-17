@@ -1,5 +1,5 @@
 import { eq } from "drizzle-orm";
-import { db } from "./index";
+import { db } from "./index.ts";
 import {
   users,
   comments,
@@ -7,7 +7,7 @@ import {
   type NewUser,
   type NewComment,
   type NewProduct,
-} from "./schema";
+} from "./schema.ts";
 
 // User Queries
 

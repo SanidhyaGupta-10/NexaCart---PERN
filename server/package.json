@@ -4,7 +4,7 @@
   "type": "module",
   "private": true,
   "scripts": {
-    "dev": "ts-node index.ts",
+   "dev": "bun --watch index.ts",
     "build": "tsc",
     "db:push": "drizzle-kit push"
   },
@@ -22,7 +22,7 @@
     "typescript": "^5"
   },
   "dependencies": {
-    "@clerk/express": "^1.0.1",
+    "@clerk/express": "1.7.60",
     "cors": "^2.8.5",
     "dotenv": "^17.2.3",
     "drizzle-orm": "^0.44.7",
