@@ -4,7 +4,7 @@
   "type": "module",
   "private": true,
   "scripts": {
-    "dev": "ts-node index.ts",
+   "dev": "bun --watch index.ts",
     "build": "tsc",
     "db:push": "drizzle-kit push"
   },
