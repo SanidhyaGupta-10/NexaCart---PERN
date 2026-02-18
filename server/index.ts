@@ -10,6 +10,7 @@ const app = express();
 
 app.use(cors({
   origin: ENV.FRONTEND_URL, // Allow all origins
+  credentials: true
 })); // Enable CORS for all routes
 app.use(clerkMiddleware()); // Add Clerk middleware to handle authentication and user management
 app.use(express.json()); // for parsing application/json
