@@ -9,12 +9,20 @@ import commentRoutes from './src/routes/commentRoutes.ts';
 const app = express();
 
 app.use(cors({
-  origin: ENV.FRONTEND_URL, // Allow all origins
-  credentials: true
-})); // Enable CORS for all routes
+  origin: ENV.FRONTEND_URL,
+  credentials: true,
+  methods: ["GET", "POST", "PUT", "DELETE"],
+  allowedHeaders: ["Content-Type", "Authorization"],
+}));
+ // Enable CORS for all routes
 app.use(clerkMiddleware()); // Add Clerk middleware to handle authentication and user management
 app.use(express.json()); // for parsing application/json
 app.use(express.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
+app.use((req, res, next) => {
+  console.log("Incoming request:", req.method, req.url);
+  next();
+});
+
 
 app.get("/api/health", (req, res) => {
   res.json({

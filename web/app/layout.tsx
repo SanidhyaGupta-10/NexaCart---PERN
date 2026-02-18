@@ -1,16 +1,10 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
-import { ClerkProvider } from '@clerk/nextjs'
-import Providers from "./providers";
+import { ClerkProvider } from "@clerk/nextjs";
+import Providers from "./components/providers";
 import "./globals.css";
 import Navbar from "./components/Navbar";
-import {
-  QueryClient,
-  QueryClientProvider,
-} from "@tanstack/react-query";
-
-// Create a client
-const queryClient = new QueryClient()
+import AppClient from "./components/AppClient";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -24,24 +18,28 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "NexaCart - PERN Stack Ecommerce",
-  description: "PostreSQL + Express + React + Node + Bun",
+  description: "PostgreSQL + Express + React + Node + Bun",
 };
 
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
+}) {
   return (
-    <ClerkProvider>
+    <ClerkProvider
+      publishableKey={process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY}
+    >
       <html lang="en" suppressHydrationWarning>
         <body
           suppressHydrationWarning
           className={`${geistSans.variable} ${geistMono.variable} antialiased`}
         >
           <Providers>
-            <Navbar />
-            {children}
+            <AppClient>
+              <Navbar />
+              {children}
+            </AppClient>
           </Providers>
         </body>
       </html>
