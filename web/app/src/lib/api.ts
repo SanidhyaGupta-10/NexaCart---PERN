@@ -8,6 +8,7 @@ import type {
   UpdateProductInput,
   CreateCommentInput,
   MessageResponse,
+  ProductWithRelations 
 } from "../types/api.types";
 
 // ==========================
@@ -23,17 +24,20 @@ export const syncUser = async (
 // ==========================
 // PRODUCTS API
 // ==========================
-export const getAllProducts = async (): Promise<Product[]> => {
-  const { data } = await api.get<Product[]>("/products");
+
+export const getAllProducts = async (): Promise<ProductWithRelations[]> => {
+  const { data } = await api.get<ProductWithRelations[]>("/products");
   return data;
 };
 
+
 export const getProductById = async (
   id: string
-): Promise<Product> => {
-  const { data } = await api.get<Product>(`/products/${id}`);
+): Promise<ProductWithRelations> => {
+  const { data } = await api.get<ProductWithRelations>(`/products/${id}`);
   return data;
 };
+
 
 export const getMyProducts = async (): Promise<Product[]> => {
   const { data } = await api.get<Product[]>("/products/my");
