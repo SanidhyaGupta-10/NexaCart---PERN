@@ -10,12 +10,14 @@ interface Props {
 
 export default function AppClient({ children }: Props) {
   // Attach axios auth interceptor
-  const {isClerkLoaded, isSignedIn} = useAuthReq();
+  const { isClerkLoaded, isSignedIn } = useAuthReq();
   // Sync user into DB
   useUserSync();
 
-  if(!isClerkLoaded) return null;
+  if (!isClerkLoaded) return null;
   console.log({ isSignedIn });
 
-  return <>{children}</>;
+  return <>
+    {children}
+  </>;
 }
