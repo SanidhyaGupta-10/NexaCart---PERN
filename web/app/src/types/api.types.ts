@@ -22,6 +22,7 @@ export interface Product {
   updatedAt: string;
 }
 
+
 // ==========================
 // Comment
 // ==========================
@@ -65,4 +66,12 @@ export interface CreateCommentInput {
 // ==========================
 export interface MessageResponse {
   message: string;
+}
+// ==========================
+// Product With Relations (For UI)
+// ==========================
+
+export interface ProductWithRelations extends Product {
+  user: User;
+  comments: Comment[];
 }
