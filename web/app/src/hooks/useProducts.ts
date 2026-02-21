@@ -7,6 +7,7 @@ import {
   getAllProducts,
   getMyProducts,
   getProductById,
+  updateProduct,
 } from "../lib/api";
 import { Product } from "../types/api.types";
 
@@ -41,5 +42,11 @@ export const useMyProducts = () => {
   return useQuery<Product[]>({
     queryKey: ["my-products"],
     queryFn: getMyProducts,
+  });
+};
+
+export const useUpdateProduct = () =>  {
+  return useMutation({
+    mutationFn: updateProduct
   });
 };
