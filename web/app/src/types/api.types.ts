@@ -22,9 +22,8 @@ export interface Product {
   updatedAt: string;
 }
 
-
 // ==========================
-// Comment
+// Comment (Base Entity)
 // ==========================
 export interface Comment {
   id: string;
@@ -32,6 +31,18 @@ export interface Comment {
   userId: string;
   productId: string;
   createdAt: string;
+}
+
+// ==========================
+// Relational Types
+// ==========================
+export interface CommentWithUser extends Comment {
+  user: User;
+}
+
+export interface ProductWithRelations extends Product {
+  user: User;
+  comments: CommentWithUser[];
 }
 
 // ==========================
@@ -62,16 +73,8 @@ export interface CreateCommentInput {
 }
 
 // ==========================
-// Generic API Response
+// Generic Response
 // ==========================
 export interface MessageResponse {
   message: string;
-}
-// ==========================
-// Product With Relations (For UI)
-// ==========================
-
-export interface ProductWithRelations extends Product {
-  user: User;
-  comments: Comment[];
 }

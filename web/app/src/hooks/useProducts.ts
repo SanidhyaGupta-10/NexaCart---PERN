@@ -5,19 +5,15 @@ import {
   createProduct,
   deleteProduct,
   getAllProducts,
+  getMyProducts,
   getProductById,
 } from "../lib/api";
+import { Product } from "../types/api.types";
 
 export const useProducts = () => {
   return useQuery({
     queryKey: ["products"],
     queryFn: getAllProducts,
-  });
-};
-
-export const useCreateProduct = () => {
-  return useMutation({
-    mutationFn: createProduct,
   });
 };
 
@@ -29,8 +25,21 @@ export const useProduct = (id: string) => {
   });
 };
 
+export const useCreateProduct = () => {
+  return useMutation({
+    mutationFn: createProduct,
+  });
+};
+
 export const useDeleteProduct = () => {
-    return useMutation({
-        mutationFn: deleteProduct,
-    });
+  return useMutation({
+    mutationFn: deleteProduct,
+  });
+};
+
+export const useMyProducts = () => {
+  return useQuery<Product[]>({
+    queryKey: ["my-products"],
+    queryFn: getMyProducts,
+  });
 };

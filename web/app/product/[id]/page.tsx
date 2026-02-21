@@ -43,17 +43,25 @@ function Page() {
 
   return (
     <div className="min-h-[90vh] bg-base-100">
-      <main className="max-w-3xl mx-auto px-4 py-8">
+      <main className="max-w-4xl mx-auto px-4 py-10 space-y-10">
+
+        {/* Top Bar */}
         <div className="flex items-center justify-between">
-          <Link href="/" className="btn btn-ghost gap-1 btn-sm">
+          <Link href="/" className="btn btn-ghost btn-sm gap-1">
             <ArrowLeftIcon className="size-4" />
             Back
           </Link>
+
           {isOwner && (
             <div className="flex gap-2">
-              <Link href={`/edit/${product.id}`} className="btn btn-ghost btn-sm gap-1">
-                <EditIcon className="size-4" /> Edit
+              <Link
+                href={`/edit/${product.id}`}
+                className="btn btn-outline btn-sm gap-1"
+              >
+                <EditIcon className="size-4" />
+                Edit
               </Link>
+
               <button
                 onClick={handleDelete}
                 className="btn btn-error btn-sm gap-1"
@@ -70,64 +78,81 @@ function Page() {
           )}
         </div>
 
-        <div className="grid lg:grid-cols-2 gap-6 mt-4">
-          {/* Image */}
-          <div className="card bg-base-300">
-            <figure className="p-4">
-              <img
-                src={product.imageUrl}
-                alt={product.title}
-                className="rounded-xl w-full h-80 object-cover"
-              />
-            </figure>
-          </div>
+        {/* Product Card */}
+        <div className="card bg-base-200 shadow-xl">
+          <div className="card-body p-6">
+            <div className="grid lg:grid-cols-2 gap-8">
 
-          <div className="card bg-base-300">
-            <div className="card-body">
-              <h1 className="card-title text-2xl">{product.title}</h1>
+              {/* Image */}
+              <div className="rounded-xl overflow-hidden">
+                <img
+                  src={product.imageUrl}
+                  alt={product.title}
+                  className="w-full h-96 object-cover"
+                />
+              </div>
 
-              <div className="flex flex-wrap gap-4 text-sm text-base-content/60 my-2">
-                <div className="flex items-center gap-1">
-                  <CalendarIcon className="size-4" />
-                  {new Date(product.createdAt).toLocaleDateString()}
+              {/* Info */}
+              <div className="flex flex-col justify-between">
+                <div>
+                  <h1 className="text-3xl font-bold mb-3">
+                    {product.title}
+                  </h1>
+
+                  <div className="flex items-center gap-4 text-sm text-base-content/60 mb-4">
+                    <div className="flex items-center gap-1">
+                      <CalendarIcon className="size-4" />
+                      {new Date(product.createdAt).toLocaleDateString()}
+                    </div>
+
+                    <div className="flex items-center gap-1">
+                      <UserIcon className="size-4" />
+                      {product.user.name}
+                    </div>
+                  </div>
+
+                  <div className="divider my-4"></div>
+
+                  <p className="leading-relaxed text-base-content/80">
+                    {product.description}
+                  </p>
                 </div>
-                <div className="flex items-center gap-1">
-                  <UserIcon className="size-4" />
-                  {product.user?.name}
+
+                {/* Creator */}
+                <div className="mt-8 flex items-center gap-3">
+                  <div className="avatar">
+                    <div className="w-12 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2">
+                      <img
+                        src={product.user.imageUrl}
+                        alt={product.user.name}
+                      />
+                    </div>
+                  </div>
+                  <div>
+                    <p className="font-semibold">{product.user.name}</p>
+                    <p className="text-xs text-base-content/50">
+                      Creator
+                    </p>
+                  </div>
                 </div>
               </div>
 
-              <div className="divider my-2"></div>
-
-              <p className="text-base-content/80 leading-relaxed">{product.description}</p>
-
-              {product.user && (
-                <>
-                  <div className="divider my-2"></div>
-                  <div className="flex items-center gap-3">
-                    <div className="avatar">
-                      <div className="w-12 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2">
-                        <img src={product.user.imageUrl} alt={product.user.name} />
-                      </div>
-                    </div>
-                    <div>
-                      <p className="font-semibold">{product.user.name}</p>
-                      <p className="text-xs text-base-content/50">Creator</p>
-                    </div>
-                  </div>
-                </>
-              )}
             </div>
           </div>
         </div>
-      </main>
-      {/* Comments */}
-      <div className="card bg-base-300">
-        <div className="card-body">
-          <CommentsSection /> 
-          {/*  productId={id} comments={product.comments} currentUserId={userId} */}
+
+        {/* Comments Section */}
+        <div className="card bg-base-200 shadow-lg">
+          <div className="card-body p-6">
+            <CommentsSection
+              productId={id}
+              comments={product.comments ?? []}
+              currentUserId={userId}
+            />
+          </div>
         </div>
-      </div>
+
+      </main>
     </div>
   );
 }
