@@ -3,16 +3,17 @@ import type {
   User,
   Product,
   Comment,
+  CommentWithUser,
   SyncUserInput,
   CreateProductInput,
   UpdateProductInput,
   CreateCommentInput,
   MessageResponse,
-  ProductWithRelations 
+  ProductWithRelations,
 } from "../types/api.types";
 
 // ==========================
-// USERS API
+// USERS
 // ==========================
 export const syncUser = async (
   userData: SyncUserInput
@@ -22,14 +23,12 @@ export const syncUser = async (
 };
 
 // ==========================
-// PRODUCTS API
+// PRODUCTS
 // ==========================
-
 export const getAllProducts = async (): Promise<ProductWithRelations[]> => {
   const { data } = await api.get<ProductWithRelations[]>("/products");
   return data;
 };
-
 
 export const getProductById = async (
   id: string
@@ -38,19 +37,15 @@ export const getProductById = async (
   return data;
 };
 
-
 export const getMyProducts = async (): Promise<Product[]> => {
   const { data } = await api.get<Product[]>("/products/my");
-  return data;
+  return data ?? [];
 };
 
 export const createProduct = async (
   productData: CreateProductInput
 ): Promise<Product> => {
-  const { data } = await api.post<Product>(
-    "/products",
-    productData
-  );
+  const { data } = await api.post<Product>("/products", productData);
   return data;
 };
 
@@ -77,14 +72,14 @@ export const deleteProduct = async (
 };
 
 // ==========================
-// COMMENTS API
+// COMMENTS
 // ==========================
 export const createComment = async (
   input: CreateCommentInput
-): Promise<Comment> => {
+): Promise<CommentWithUser> => {
   const { productId, content } = input;
 
-  const { data } = await api.post<Comment>(
+  const { data } = await api.post<CommentWithUser>(
     `/comments/${productId}`,
     { content }
   );
