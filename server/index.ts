@@ -1,44 +1,80 @@
-import express from 'express';
-import { ENV } from "./src/config/env.ts"
-import { clerkMiddleware } from '@clerk/express'
-import cors from 'cors';
-import userRoutes from './src/routes/userRoutes.ts';
-import productRoutes from './src/routes/productRoutes.ts';
-import commentRoutes from './src/routes/commentRoutes.ts';
+import express from "express";
+import cors from "cors";
+import { clerkMiddleware } from "@clerk/express";
+import { ENV } from "./src/config/env.ts";
+
+import userRoutes from "./src/routes/userRoutes.ts";
+import productRoutes from "./src/routes/productRoutes.ts";
+import commentRoutes from "./src/routes/commentRoutes.ts";
 
 const app = express();
 
-app.use(cors({
-  origin: ENV.FRONTEND_URL,
-  credentials: true,
-  methods: ["GET", "POST", "PUT", "DELETE"],
-  allowedHeaders: ["Content-Type", "Authorization"],
-}));
- // Enable CORS for all routes
-app.use(clerkMiddleware()); // Add Clerk middleware to handle authentication and user management
-app.use(express.json()); // for parsing application/json
-app.use(express.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
-app.use((req, res, next) => {
-  console.log("Incoming request:", req.method, req.url);
-  next();
-});
+/**
+ * CORS Configuration
+ */
+app.use(
+  cors({
+    origin: ENV.FRONTEND_URL || true, // fallback for safety
+    credentials: true,
+  })
+);
 
+/**
+ * Middlewares
+ */
+app.use(clerkMiddleware());
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
-app.get("/api/health", (req, res) => {
+/**
+ * Request Logger (optional)
+ */
+if (ENV.NODE_ENV !== "production") {
+  app.use((req, _res, next) => {
+    console.log(`${req.method} ${req.url}`);
+    next();
+  });
+}
+
+/**
+ * Health Check
+ */
+app.get("/api/health", (_req, res) => {
   res.json({
-    message: "Welcome to Productify API - Powered by PostgreSQL, Drizzle ORM & Clerk Auth",
-    endpoints: {
-      users: "/api/users",
-      products: "/api/products",
-      comments: "/api/comments",
-    },
+    status: "ok",
+    service: "Productify API",
   });
 });
 
+/**
+ * Routes
+ */
 app.use("/api/users", userRoutes);
 app.use("/api/products", productRoutes);
 app.use("/api/comments", commentRoutes);
 
-app.listen(ENV.PORT, () => {
-  console.log(`http://localhost:${ENV.PORT}`);
+/**
+ * 404 Handler
+ */
+app.use((_req, res) => {
+  res.status(404).json({ message: "Route not found" });
+});
+
+/**
+ * Global Error Handler
+ */
+app.use((err: any, _req: any, res: any, _next: any) => {
+  console.error("Unhandled Error:", err);
+  res.status(err.status || 500).json({
+    message: err.message || "Internal Server Error",
+  });
+});
+
+/**
+ * Start Server
+ */
+const PORT = process.env.PORT || ENV.PORT || 5000;
+
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
 });

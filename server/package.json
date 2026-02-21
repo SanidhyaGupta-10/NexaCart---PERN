@@ -1,12 +1,21 @@
 {
   "name": "backend",
-  "module": "index.ts",
-  "type": "module",
   "private": true,
+  "type": "module",
   "scripts": {
-   "dev": "bun --watch index.ts",
-    "build": "tsc",
-    "db:push": "drizzle-kit push"
+  "dev": "bun --watch index.ts",
+  "start": "bun index.ts",
+  "db:generate": "drizzle-kit generate",
+  "db:migrate": "drizzle-kit migrate",
+  "db:push": "drizzle-kit push"
+},
+  "dependencies": {
+    "@clerk/express": "^1.7.60",
+    "cors": "^2.8.5",
+    "dotenv": "^17.2.3",
+    "drizzle-orm": "^0.44.7",
+    "express": "^5.2.1",
+    "pg": "^8.16.3"
   },
   "devDependencies": {
     "@types/bun": "latest",
@@ -14,19 +23,6 @@
     "@types/express": "^5.0.6",
     "@types/pg": "^8.15.6",
     "drizzle-kit": "^0.31.7",
-    "nodemon": "^3.1.11",
-    "ts-node": "^10.9.2",
     "typescript": "^5.9.3"
-  },
-  "peerDependencies": {
-    "typescript": "^5"
-  },
-  "dependencies": {
-    "@clerk/express": "1.7.60",
-    "cors": "^2.8.5",
-    "dotenv": "^17.2.3",
-    "drizzle-orm": "^0.44.7",
-    "express": "^5.2.1",
-    "pg": "^8.16.3"
   }
 }
