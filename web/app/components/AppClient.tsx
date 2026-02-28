@@ -15,7 +15,6 @@ export default function AppClient({ children }: Props) {
   useUserSync();
 
   if (!isClerkLoaded) return null;
-  console.log({ isSignedIn });
 
   return <>
     {children}

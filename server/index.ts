@@ -37,12 +37,12 @@ if (ENV.NODE_ENV !== "production") {
 }
 
 /**
- * Health Check
+ * Common Check Server is running or not
  */
-app.get("/api/health", (_req, res) => {
+app.get("/", (_req, res) => {
   res.json({
     status: "ok",
-    service: "Productify API",
+    service: "NexaCart API",
   });
 });
 
@@ -76,5 +76,5 @@ app.use((err: any, _req: any, res: any, _next: any) => {
 const PORT = process.env.PORT || ENV.PORT || 5000;
 
 app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
+  console.log(`Server running on http://localhost:${PORT}`);
 });
