@@ -12,10 +12,10 @@ function useUserSync() {
   const { mutate, isPending, isSuccess, error } = useMutation({
     mutationFn: syncUser,
     onError: (err) => {
-      console.error("Sync failed:", err);
+      // console.error("Sync failed:", err);
     },
     onSuccess: (data) => {
-      console.log("User synced:", data);
+      // console.log("User synced:", data);
     },
   });
 
@@ -29,7 +29,7 @@ function useUserSync() {
         imageUrl: user.imageUrl,
       };
 
-      console.log("Sending payload:", payload);
+      // console.log("Sending payload:", payload);
 
       mutate(payload);
       hasSynced.current = true;
