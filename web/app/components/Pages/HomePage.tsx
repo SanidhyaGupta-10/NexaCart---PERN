@@ -1,6 +1,6 @@
 "use client"
 
-import { SignInButton } from "@clerk/nextjs";
+import { SignedIn, SignedOut, SignInButton } from "@clerk/nextjs";
 import { useProducts } from "../../src/hooks/useProducts";
 import LoadingSpinner from "../LoadingSpinner";
 import { PackageIcon, SparklesIcon } from "lucide-react";
@@ -39,12 +39,20 @@ function HomePage() {
             <p className="py-4 text-base-content/60">
               Upload, discover, and connect with creators.
             </p>
-            <SignInButton mode="modal">
-              <button className="btn btn-primary">
+            <SignedIn>
+              <Link href="/create" className="btn btn-primary">
                 <SparklesIcon className="size-4" />
                 Start Selling
-              </button>
-            </SignInButton>
+              </Link>
+            </SignedIn>
+            <SignedOut>
+              <SignInButton mode="modal">
+                <button className="btn btn-primary">
+                  <SparklesIcon className="size-4" />
+                  Start Selling
+                </button>
+              </SignInButton>
+            </SignedOut>
           </div>
         </div>
       </div>
@@ -61,9 +69,18 @@ function HomePage() {
               <PackageIcon className="size-16 text-base-content/20" />
               <h3 className="card-title text-base-content/50">No products yet</h3>
               <p className="text-base-content/40 text-sm">Be the first to share something!</p>
-              <Link href="/create" className="btn btn-primary btn-sm mt-2">
-                Create Product
-              </Link>
+              <SignedIn>
+                <Link href="/create" className="btn btn-primary btn-sm mt-2">
+                  Create Product
+                </Link>
+              </SignedIn>
+              <SignedOut>
+                <SignInButton mode="modal">
+                  <button className="btn btn-primary btn-sm mt-2">
+                    Create Product
+                  </button>
+                </SignInButton>
+              </SignedOut>
             </div>
           </div>
         ) : (
